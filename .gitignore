@@ -1,1 +1,7 @@
-# Created by .ignore support plugin (hsz.mobi)
+
+###> symfony/framework-bundle ###
+/.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
