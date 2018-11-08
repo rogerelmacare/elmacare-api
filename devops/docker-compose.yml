@@ -1,0 +1,46 @@
+version: '2'
+services:
+  elmacare:
+    container_name: elmacare
+    build: docker/services/elmacare
+    extends:
+      service: elmacare
+      file: docker/volume_mappings.yml
+    depends_on:
+    - elmacare_ddbb
+    networks:
+      frontend:
+        aliases:
+        - dev.elmacare.com
+        ipv4_address: 10.5.0.2
+    ports:
+    - '8080:8080'
+
+  elmacare_ddbb:
+    container_name: elmacare_ddbb
+    build: docker/services/database
+    extends:
+      file: docker/volume_mappings.yml
+      service: elmacare_ddbb
+    networks:
+      frontend:
+        aliases:
+        - elmacare_ddbb
+        ipv4_address: 10.5.0.3
+
+    ports:
+    - '3306:3306'
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_DATABASE: elmacare
+      MYSQL_USER: elmacare_user
+      MYSQL_PASSWORD: elmacare_mysql
+
+networks:
+  frontend:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 10.5.0.0/16
+        gateway: 10.5.0.1

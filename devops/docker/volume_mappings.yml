@@ -1,0 +1,8 @@
+version: '2'
+services:
+  elmacare:
+    volumes:
+    - '/home/roger/projects/test/elmacare/elmacare_api:/var/www:cached'
+  elmacare_ddbb:
+    volumes:
+    - '/home/roger/projects/test/elmacare/elmacare_ddbb:/var/lib/mysql:cached'

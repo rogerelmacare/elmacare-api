@@ -1,0 +1,8 @@
+version: '2'
+services:
+    elmacare:
+        volumes:
+            - '%YOUR_PROJECT_PATH%:/var/www:cached'
+    elmacare_ddbb:
+        volumes:
+            - '%YOUR_PROJECT_DDBB_PATH%:/var/lib/mysql:cached'
