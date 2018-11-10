@@ -29,3 +29,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # CQRS QUERY
+    App\Infrastructure\QueryHandler\:
+        resource: '../src/Infrastructure/QueryHandler/*'
+        public: true
+        tags: [messenger.message_handler]
+
+    # CQRS COMMAND
+    App\Infrastructure\CommandHandler\:
+        resource: '../src/Infrastructure/CommandHandler/*'
+        public: true
+        tags: [messenger.message_handler]
