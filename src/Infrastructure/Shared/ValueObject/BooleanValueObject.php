@@ -9,7 +9,7 @@ abstract class BooleanValueObject
 {
 
     private const NUMBER_FALSE = 0;
-    private const NUMBER_TRUE  = 1;
+    private const NUMBER_TRUE = 1;
 
     protected $value;
 

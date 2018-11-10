@@ -7,12 +7,12 @@ namespace App\Controller\Core;
 
 use App\Context\Core\Module\Core\Application\Start\StartCoreCommand;
 use Ramsey\Uuid\Uuid;
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Swagger\Annotations as SWG;
 
 final class CoreStartController extends AbstractController
 {
@@ -36,13 +36,13 @@ final class CoreStartController extends AbstractController
         $uuid = Uuid::uuid4();
         $now  = new \DateTime('now');
 
-        $startDayCommand = new StartCoreCommand(
+        $startCoreCommand = new StartCoreCommand(
             $uuid->toString(),
             $now->format('Y-m-d H:i:s')
         );
-        $this->messageBus->dispatch($startDayCommand);
+        $this->messageBus->dispatch($startCoreCommand);
 
-        
+
         $response = new JsonResponse();
         $response->setStatusCode(Response::HTTP_OK);
 
