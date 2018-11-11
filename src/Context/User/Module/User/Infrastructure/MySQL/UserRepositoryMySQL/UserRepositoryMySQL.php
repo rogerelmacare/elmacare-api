@@ -36,4 +36,22 @@ final class UserRepositoryMySQL implements UserRepository
         $statement->execute();
 
     }
+
+    public function findAll(): array
+    {
+        $query = '
+          SELECT * FROM user ORDER BY name ASC;
+        ';
+
+        $statement = $this->em->getConnection()->prepare($query);
+        $statement->execute();
+
+        $users = $statement->fetchAll();
+
+        if ($users) {
+            return $users;
+        }
+
+        return [];
+    }
 }

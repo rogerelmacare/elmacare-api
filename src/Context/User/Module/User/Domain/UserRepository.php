@@ -11,4 +11,6 @@ use App\Infrastructure\Shared\Domain\User\User;
 interface UserRepository
 {
     public function create(User $user): void;
+
+    public function findAll(): array;
 }

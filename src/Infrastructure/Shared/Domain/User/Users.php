@@ -13,10 +13,13 @@ final class Users extends Collection
     {
         $users = [];
         foreach ($items as $item) {
+
+            $surname = $item['surname'] ?: '';
+
             $users[] = new User(
                 new UserId($item['id']),
                 new UserName($item['name']),
-                new UserSurname($item['surname']),
+                new UserSurname($surname),
                 new UserCreatedAt($item['created_at']),
                 new UserUpdatedAt($item['updated_at']),
                 new UserActive((bool)$item['active'])
