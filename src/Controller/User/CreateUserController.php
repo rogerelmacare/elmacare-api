@@ -49,6 +49,9 @@ final class CreateUserController
      *     description="User active status"
      * ),
      * @SWG\Tag(name="Users")
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
      */
     public function __invoke(Request $request): Response
     {

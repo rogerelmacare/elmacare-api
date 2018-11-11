@@ -21,7 +21,8 @@ final class User
         UserCreatedAt $userCreatedAt,
         UserUpdatedAt $userUpdatedAt,
         UserActive $userActive
-    ) {
+    )
+    {
         $this->id        = $userId;
         $this->name      = $userName;
         $this->surname   = $userSurname;

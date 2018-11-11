@@ -42,7 +42,6 @@ final class CoreStartController extends AbstractController
         );
         $this->messageBus->dispatch($startCoreCommand);
 
-
         $response = new JsonResponse();
         $response->setStatusCode(Response::HTTP_OK);
 
