@@ -1,0 +1,26 @@
+<table id="endOfDayReport" class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Login At</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        {% if user.status %}
+            {% set status = 'success' %}
+        {% else %}
+            {% set status = 'rejected' %}
+        {% endif %}
+        <tr>
+            <th>{{ loop.index }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ status }}</td>
+            <td>{{ user.login_at }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
