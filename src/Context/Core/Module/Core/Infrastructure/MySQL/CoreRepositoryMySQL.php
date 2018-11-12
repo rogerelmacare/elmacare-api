@@ -8,6 +8,7 @@ namespace App\Context\Core\Module\Core\Infrastructure\MySQL;
 use App\Context\Core\Module\Core\Domain\CoreRepository;
 use App\Infrastructure\Shared\Domain\Core\Core;
 use App\Infrastructure\Shared\Domain\Core\CoreStartAt;
+use App\Infrastructure\Shared\Domain\Core\IncreaseLoginCounter;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use PDO;
 
@@ -35,7 +36,6 @@ final class CoreRepositoryMySQL implements CoreRepository
 
         $statement->execute();
     }
-
 
     public function end(Core $core): void
     {
@@ -66,5 +66,20 @@ final class CoreRepositoryMySQL implements CoreRepository
         $core = $statement->fetch();
 
         return $core ?: null;
+    }
+
+    public function increaseLoginCounter(IncreaseLoginCounter $increaseLoginCounter): void
+    {
+        $query = '
+          UPDATE core
+          SET number_of_logins = number_of_logins + :increaseIn
+          WHERE id = :coreId
+        ';
+
+        $statement = $this->em->getConnection()->prepare($query);
+        $statement->bindValue('increaseIn', $increaseLoginCounter->increaseIn(), PDO::PARAM_INT);
+        $statement->bindValue('coreId', $increaseLoginCounter->coreId()->value(), PDO::PARAM_STR);
+
+        $statement->execute();
     }
 }

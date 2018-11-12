@@ -7,6 +7,7 @@ namespace App\Context\Core\Module\Core\Domain;
 
 use App\Infrastructure\Shared\Domain\Core\Core;
 use App\Infrastructure\Shared\Domain\Core\CoreStartAt;
+use App\Infrastructure\Shared\Domain\Core\IncreaseLoginCounter;
 
 interface CoreRepository
 {
@@ -15,4 +16,6 @@ interface CoreRepository
     public function end(Core $core): void;
 
     public function getTodayCore(CoreStartAt $coreStartAt): ?array;
+
+    public function increaseLoginCounter(IncreaseLoginCounter $increaseLoginCounter): void;
 }

@@ -7,6 +7,7 @@ namespace App\Controller\Login;
 
 
 use App\Context\Core\Module\Core\Application\Get\GetTodayCoreQuery;
+use App\Context\Core\Module\Core\Application\LoginCounter\IncreaseLoginCounterCommand;
 use App\Context\Login\Module\Email\Application\EmailLoginCommand;
 use App\Context\Login\Module\Login\Application\Login\LoginCommand;
 use App\Context\User\Module\User\Application\Find\FindUserByIdQuery;
@@ -90,6 +91,10 @@ final class LoginController
         );
         $this->messageBus->dispatch($emailLoginCommand);
 
+        $increaseLoginCounterCommand = new IncreaseLoginCounterCommand(
+            $core->id()->value()
+        );
+        $this->messageBus->dispatch($increaseLoginCounterCommand);
 
 
         $response = new JsonResponse();
