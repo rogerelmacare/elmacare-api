@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Core;
 
 
+use App\Context\Core\Module\Core\Application\Get\GetTodayCoreQuery;
 use App\Context\Core\Module\Core\Application\Start\StartCoreCommand;
 use Ramsey\Uuid\Uuid;
 use Swagger\Annotations as SWG;
@@ -34,6 +35,16 @@ final class CoreStartController
     {
         $uuid = Uuid::uuid4();
         $now  = new \DateTime('now');
+
+        $getTodayCoreCommand = new GetTodayCoreQuery($now->format('Y-m-d'));
+        $core                = $this->messageBus->dispatch($getTodayCoreCommand);
+        if ($core ){
+            $response = new JsonResponse();
+            $response->setStatusCode(Response::HTTP_OK);
+            $response->setJson(json_encode('Core already started'));
+
+            return $response;
+        }
 
         $startCoreCommand = new StartCoreCommand(
             $uuid->toString(),
