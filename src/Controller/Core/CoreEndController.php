@@ -8,6 +8,8 @@ namespace App\Controller\Core;
 
 use App\Context\Core\Module\Core\Application\End\EndCoreCommand;
 use App\Context\Core\Module\Core\Application\Get\GetTodayCoreQuery;
+use App\Context\Report\Module\Core\Application\Email\EndDayCoreMailReportCommand;
+use App\Context\Report\Module\Core\Application\Get\GetCoreUsersDayQuery;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,27 +37,38 @@ final class CoreEndController
     {
         $now = new \DateTime('now');
 
-        $getTodayCoreCommand = new GetTodayCoreQuery(
-            $now->format('Y-m-d')
-        );
+        $getTodayCoreCommand = new GetTodayCoreQuery($now->format('Y-m-d'));
 
         $core = $this->messageBus->dispatch($getTodayCoreCommand);
 
-        if ($core) {
-            $endCoreCommand = new EndCoreCommand(
-                (string)$core->id(),
-                $core->startAt()->value(),
-                $now->format('Y-m-d H:i:s'),
-                $core->numberOfLogins()->value()
-            );
-
-            $this->messageBus->dispatch($endCoreCommand);
-
+        if (!$core) {
             $response = new JsonResponse();
-            $response->setStatusCode(Response::HTTP_OK);
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            $response->setJson(json_encode('Core not found'));
 
             return $response;
         }
+
+        $endCoreCommand = new EndCoreCommand(
+            (string)$core->id(),
+            $core->startAt()->value(),
+            $now->format('Y-m-d H:i:s'),
+            $core->numberOfLogins()->value()
+        );
+        $this->messageBus->dispatch($endCoreCommand);
+
+
+        $getCoreUsersDayQuery = new GetCoreUsersDayQuery((string)$core->id());
+        $users                = $this->messageBus->dispatch($getCoreUsersDayQuery);
+
+        $endDayMailReportCommand = new EndDayCoreMailReportCommand($users);
+        $this->messageBus->dispatch($endDayMailReportCommand);
+
+        $response = new JsonResponse();
+        $response->setStatusCode(Response::HTTP_OK);
+
+        return $response;
+
     }
 
 }

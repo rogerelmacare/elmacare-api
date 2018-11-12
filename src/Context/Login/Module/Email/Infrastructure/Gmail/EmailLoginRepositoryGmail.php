@@ -44,4 +44,5 @@ final class EmailLoginRepositoryGmail implements EmailRepository
 
         $this->mailer->send($message);
     }
+
 }
