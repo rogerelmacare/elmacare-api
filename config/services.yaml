@@ -41,3 +41,8 @@ services:
         resource: '../src/Infrastructure/CommandHandler/*'
         public: true
         tags: [messenger.message_handler]
+
+    elmacare.login.gmail.mailer:
+        class: App\Context\Login\Module\Email\Infrastructure\Gmail\EmailLoginRepositoryGmail
+        arguments:
+        - '@mailer'

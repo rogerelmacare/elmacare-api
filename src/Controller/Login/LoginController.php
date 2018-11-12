@@ -7,6 +7,7 @@ namespace App\Controller\Login;
 
 
 use App\Context\Core\Module\Core\Application\Get\GetTodayCoreQuery;
+use App\Context\Login\Module\Email\Application\EmailLoginCommand;
 use App\Context\Login\Module\Login\Application\Login\LoginCommand;
 use App\Context\User\Module\User\Application\Find\FindUserByIdQuery;
 use App\Infrastructure\Shared\Domain\User\User;
@@ -82,7 +83,12 @@ final class LoginController
         );
         $this->messageBus->dispatch($loginCommand);
 
-
+        $emailLoginCommand = new EmailLoginCommand(
+            $user->name()->value(),
+            $now->format('Y-m-d H:i:s'),
+            $user->active()->value()
+        );
+        $this->messageBus->dispatch($emailLoginCommand);
 
 
 
