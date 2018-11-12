@@ -20,8 +20,6 @@ final class FindAllUsersQueryHandler
 
     public function __invoke(FindAllUsersQuery $query): ?array
     {
-
         return $this->useCase->__invoke();
-
     }
 }

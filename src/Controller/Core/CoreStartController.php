@@ -8,13 +8,12 @@ namespace App\Controller\Core;
 use App\Context\Core\Module\Core\Application\Start\StartCoreCommand;
 use Ramsey\Uuid\Uuid;
 use Swagger\Annotations as SWG;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class CoreStartController extends AbstractController
+final class CoreStartController
 {
     private $messageBus;
 

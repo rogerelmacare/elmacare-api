@@ -9,13 +9,12 @@ namespace App\Controller\Core;
 use App\Context\Core\Module\Core\Application\End\EndCoreCommand;
 use App\Context\Core\Module\Core\Application\Get\GetTodayCoreQuery;
 use Swagger\Annotations as SWG;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class CoreEndController extends AbstractController
+final class CoreEndController
 {
     private $messageBus;
 

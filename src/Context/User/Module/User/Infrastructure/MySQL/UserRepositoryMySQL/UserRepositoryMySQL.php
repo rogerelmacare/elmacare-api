@@ -8,11 +8,14 @@ namespace App\Context\User\Module\User\Infrastructure\MySQL\UserRepositoryMySQL;
 
 use App\Context\User\Module\User\Domain\UserRepository;
 use App\Infrastructure\Shared\Domain\User\User;
+use App\Infrastructure\Shared\Domain\User\UserId;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use PDO;
 
 final class UserRepositoryMySQL implements UserRepository
 {
+    private $em;
+
     public function __construct(ManagerRegistry $em)
     {
         $this->em = $em;
@@ -53,5 +56,21 @@ final class UserRepositoryMySQL implements UserRepository
         }
 
         return [];
+    }
+
+    public function findById(UserId $userId): ?array
+    {
+        $query = '
+          SELECT * FROM user WHERE id = :userId LIMIT 1;
+        ';
+
+
+        $statement = $this->em->getConnection()->prepare($query);
+        $statement->bindValue('userId', $userId->value(), PDO::PARAM_STR);
+        $statement->execute();
+        $user = $statement->fetch();
+
+        return $user ?: null;
+
     }
 }

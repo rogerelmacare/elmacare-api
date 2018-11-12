@@ -23,11 +23,8 @@ final class GetTodayCoreQueryHandler
     public function __invoke(GetTodayCoreQuery $query): Core
     {
 
-        $coreStartAt = new CoreStartAt(
-            $query->startAt()
-        );
+        $coreStartAt = new CoreStartAt($query->startAt());
 
         return $this->useCase->__invoke($coreStartAt);
-
     }
 }

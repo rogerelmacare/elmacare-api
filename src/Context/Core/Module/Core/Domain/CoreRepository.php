@@ -14,5 +14,5 @@ interface CoreRepository
 
     public function end(Core $core): void;
 
-    public function getTodayCore(CoreStartAt $coreStartAt): Core;
+    public function getTodayCore(CoreStartAt $coreStartAt): ?array;
 }
